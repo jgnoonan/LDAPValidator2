@@ -21,7 +21,7 @@ An iOS application that validates LDAP credentials via gRPC communication with a
 
 1. Clone the repository:
    ```bash
-   git clone [your-repo-url]
+   git clone https://github.com/jgnoonan/LDAPValidator2.git
    cd LDAPValidator2
    ```
 
