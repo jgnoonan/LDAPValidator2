@@ -10,6 +10,7 @@ import GRPC
 
 struct ContentView: View {
     @StateObject private var viewModel = ValidationViewModel()
+    @State private var isPasswordVisible = false
     
     var body: some View {
         Form {
@@ -25,8 +26,24 @@ struct ContentView: View {
             Section {
                 TextField("User ID", text: $viewModel.userId)
                     .disableAutocorrection(true)
+                    .textInputAutocapitalization(.never)
                 
-                SecureField("Password", text: $viewModel.password)
+                HStack {
+                    if isPasswordVisible {
+                        TextField("Password", text: $viewModel.password)
+                            .textInputAutocapitalization(.never)
+                    } else {
+                        SecureField("Password", text: $viewModel.password)
+                            .textInputAutocapitalization(.never)
+                    }
+                    
+                    Button(action: {
+                        isPasswordVisible.toggle()
+                    }) {
+                        Image(systemName: isPasswordVisible ? "eye.fill" : "eye.slash.fill")
+                            .foregroundColor(.gray)
+                    }
+                }
             }
             
             Section {

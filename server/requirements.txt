@@ -1,0 +1,4 @@
+grpcio==1.60.0
+grpcio-tools==1.60.0
+python-ldap==3.4.3
+msal==1.25.0

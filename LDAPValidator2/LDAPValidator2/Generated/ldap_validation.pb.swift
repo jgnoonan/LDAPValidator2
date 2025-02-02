@@ -20,7 +20,7 @@ fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAP
   typealias Version = _2
 }
 
-public enum Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsErrorType: SwiftProtobuf.Enum, Swift.CaseIterable {
+public enum ValidateCredentialsErrorType: SwiftProtobuf.Enum, Swift.CaseIterable {
   public typealias RawValue = Int
   case unspecified // = 0
   case invalidCredentials // = 1
@@ -56,7 +56,7 @@ public enum Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsErrorType: Swift
   }
 
   // The compiler won't synthesize support with the UNRECOGNIZED case.
-  public static let allCases: [Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsErrorType] = [
+  public static let allCases: [ValidateCredentialsErrorType] = [
     .unspecified,
     .invalidCredentials,
     .userNotFound,
@@ -66,7 +66,7 @@ public enum Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsErrorType: Swift
 
 }
 
-public struct Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsRequest: Sendable {
+public struct ValidateCredentialsRequest: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -82,12 +82,12 @@ public struct Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsRequest: Senda
   public init() {}
 }
 
-public struct Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsResponse: Sendable {
+public struct ValidateCredentialsResponse: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  public var result: Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsResponse.OneOf_Result? = nil
+  public var result: ValidateCredentialsResponse.OneOf_Result? = nil
 
   /// The phone number associated with the validated credentials
   public var phoneNumber: String {
@@ -99,10 +99,10 @@ public struct Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsResponse: Send
   }
 
   /// Error details if validation failed
-  public var error: Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsError {
+  public var error: ValidateCredentialsError {
     get {
       if case .error(let v)? = result {return v}
-      return Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsError()
+      return ValidateCredentialsError()
     }
     set {result = .error(newValue)}
   }
@@ -113,19 +113,19 @@ public struct Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsResponse: Send
     /// The phone number associated with the validated credentials
     case phoneNumber(String)
     /// Error details if validation failed
-    case error(Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsError)
+    case error(ValidateCredentialsError)
 
   }
 
   public init() {}
 }
 
-public struct Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsError: Sendable {
+public struct ValidateCredentialsError: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  public var errorType: Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsErrorType = .unspecified
+  public var errorType: ValidateCredentialsErrorType = .unspecified
 
   public var message: String = String()
 
@@ -138,7 +138,7 @@ public struct Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsError: Sendabl
 
 fileprivate let _protobuf_package = "org.signal.registration.ldap.rpc"
 
-extension Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsErrorType: SwiftProtobuf._ProtoNameProviding {
+extension ValidateCredentialsErrorType: SwiftProtobuf._ProtoNameProviding {
   public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     0: .same(proto: "VALIDATE_CREDENTIALS_ERROR_TYPE_UNSPECIFIED"),
     1: .same(proto: "VALIDATE_CREDENTIALS_ERROR_TYPE_INVALID_CREDENTIALS"),
@@ -148,7 +148,7 @@ extension Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsErrorType: SwiftPr
   ]
 }
 
-extension Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+extension ValidateCredentialsRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = _protobuf_package + ".ValidateCredentialsRequest"
   public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "user_id"),
@@ -178,7 +178,7 @@ extension Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsRequest: SwiftProt
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  public static func ==(lhs: Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsRequest, rhs: Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsRequest) -> Bool {
+  public static func ==(lhs: ValidateCredentialsRequest, rhs: ValidateCredentialsRequest) -> Bool {
     if lhs.userID != rhs.userID {return false}
     if lhs.password != rhs.password {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -186,7 +186,7 @@ extension Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsRequest: SwiftProt
   }
 }
 
-extension Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+extension ValidateCredentialsResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = _protobuf_package + ".ValidateCredentialsResponse"
   public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "phone_number"),
@@ -208,7 +208,7 @@ extension Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsResponse: SwiftPro
         }
       }()
       case 2: try {
-        var v: Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsError?
+        var v: ValidateCredentialsError?
         var hadOneofValue = false
         if let current = self.result {
           hadOneofValue = true
@@ -244,14 +244,14 @@ extension Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsResponse: SwiftPro
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  public static func ==(lhs: Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsResponse, rhs: Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsResponse) -> Bool {
+  public static func ==(lhs: ValidateCredentialsResponse, rhs: ValidateCredentialsResponse) -> Bool {
     if lhs.result != rhs.result {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
 }
 
-extension Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsError: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+extension ValidateCredentialsError: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = _protobuf_package + ".ValidateCredentialsError"
   public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "error_type"),
@@ -281,7 +281,7 @@ extension Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsError: SwiftProtob
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  public static func ==(lhs: Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsError, rhs: Org_Signal_Registration_Ldap_Rpc_ValidateCredentialsError) -> Bool {
+  public static func ==(lhs: ValidateCredentialsError, rhs: ValidateCredentialsError) -> Bool {
     if lhs.errorType != rhs.errorType {return false}
     if lhs.message != rhs.message {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}

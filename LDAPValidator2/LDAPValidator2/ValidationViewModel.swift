@@ -2,6 +2,7 @@ import Foundation
 import GRPC
 import Logging
 
+@MainActor
 class ValidationViewModel: ObservableObject {
     @Published var userId = ""
     @Published var password = ""
@@ -10,8 +11,7 @@ class ValidationViewModel: ObservableObject {
     @Published var validationResult = ""
     @Published var selectedAuthType = AuthType.ldap
     
-    private let ldapClient: LDAPGRPCClient
-    private let entraClient: EntraGRPCClient
+    private let validationClient: ValidationServiceClient
     
     enum AuthType: String, CaseIterable {
         case ldap = "LDAP"
@@ -19,46 +19,44 @@ class ValidationViewModel: ObservableObject {
     }
     
     init() {
-        let logger = Logger(label: "com.valuelabs.ldapvalidator")
-        ldapClient = LDAPGRPCClient(logger: logger)
-        entraClient = EntraGRPCClient(logger: logger)
+        validationClient = ValidationServiceClient()
     }
     
+    @MainActor
     func validateCredentials() async {
+        guard !userId.isEmpty && !password.isEmpty else { return }
+        
         isValidating = true
         validationResult = ""
         
+        let logger = Logger(label: "com.valuelabs.ldapvalidator.viewmodel")
+        logger.info("Starting validation for user: \(userId), auth type: \(selectedAuthType.rawValue)")
+        
         do {
-            switch selectedAuthType {
-            case .ldap:
-                try await validateLDAP()
-            case .entraId:
-                try await validateEntraID()
+            let client = ValidationServiceClient()
+            let isEntraId = selectedAuthType == .entraId
+            
+            logger.info("Calling validation service...")
+            let result = try await client.validateCredentials(userId: userId, password: password, isEntraId: isEntraId)
+            
+            if result.isValid {
+                logger.info("Validation successful")
+                if let phoneNumber = result.phoneNumber {
+                    logger.info("Phone number retrieved: \(phoneNumber)")
+                    validationResult = "Validation Successful!\nPhone Number: \(phoneNumber)"
+                } else {
+                    logger.warning("No phone number in successful response")
+                    validationResult = "Validation Successful but no phone number found"
+                }
+            } else {
+                logger.error("Validation failed: \(result.errorMessage ?? "No error message")")
+                validationResult = "\(selectedAuthType.rawValue) Validation Failed: \(result.errorMessage ?? "Unknown error")"
             }
         } catch {
+            logger.error("Validation threw error: \(error)")
             validationResult = "Error: \(error.localizedDescription)"
         }
         
         isValidating = false
-    }
-    
-    private func validateLDAP() async throws {
-        let result = try await ldapClient.validateCredentials(userId: userId, password: password)
-        if result.isValid {
-            validationResult = "LDAP Validation Successful"
-            phoneNumber = result.phoneNumber ?? ""
-        } else {
-            validationResult = "LDAP Validation Failed"
-        }
-    }
-    
-    private func validateEntraID() async throws {
-        let result = try await entraClient.validateCredentials(userId: userId, password: password)
-        if result.isValid {
-            validationResult = "Entra ID Validation Successful"
-            phoneNumber = result.phoneNumber ?? ""
-        } else {
-            validationResult = "Entra ID Validation Failed"
-        }
     }
 }
